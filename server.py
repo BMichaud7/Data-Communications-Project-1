@@ -18,7 +18,6 @@ while True:
     client_connection, client_address = server_socket.accept()
     # Get the client request
     try:
-        print("IN TRY")
         request = client_connection.recv(1024).decode()
         file_request = request.split()[1]
         file_request = "index.html" if file_request == "/" else file_request[1:]
@@ -33,13 +32,11 @@ while True:
             client_connection.send(response.encode())
             print("response sent")
 
-        
+    
             for i in range(0, len(outputdata)):
                 client_connection.send(outputdata[i].encode())
-
             client_connection.send("\r\n".encode())
             client_connection.close()
-
         elif request.split()[0] == "PUT":
             filename = request.split()[1].replace("/", "")
             print("SAVING: ",filename)
@@ -54,10 +51,6 @@ while True:
                     f.write(data) 
                 f.close()
             
-             
-            
-
-        # else: 
 
     except IOError:
         # Send response message for file not found

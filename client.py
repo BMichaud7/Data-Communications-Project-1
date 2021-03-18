@@ -11,11 +11,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     File = sys.argv[4]
     print(sys.argv)
     url_string =  request_type + " /" +File + " HTTP/1.1\r\nHost: "+host+"\r\nAccept: text/html\r\nConnection: close\r\n\r\n"
-
     s.connect((host , port))
     s.sendall(url_string.encode())
-
-    print("REQ",request_type)
     if request_type == "GET":
         while True:
             data = s.recv(1024)
@@ -24,7 +21,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(data.decode())
     elif request_type == "PUT":
         with open(File, "r") as f:
-            print("READING NOW",f)
             for l in f.readlines():
                 print(l)
                 s.sendall(str.encode(""+l+""))
